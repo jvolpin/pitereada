@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'write')}">
 <head>
     <script src="http://code.jquery.com/jquery-1.5.js"></script>
     <script>
-      function countChar(val) {
-        var len = val.value.length;
-        if (len >= 280) {
-          val.value = val.value.substring(0, 280);
-        } else {
-          $('#charNum').text(280 - len);
-        }
-      };
+        var textarea = document.querySelector("textarea");
+
+        textarea.addEventListener("input", function(){
+            var maxlength = this.getAttribute("maxlength");
+            var currentLength = this.value.length;
+
+            if( currentLength >= maxlength ){
+                console.log("You have reached the maximum number of characters.");
+            }else{
+                console.log(maxlength - currentLength + " chars left");
+            }
+        });
     </script>
 </head>
-
 <body>
-<textarea id="field" onkeyup="countChar(this)"></textarea>
-<div id="charNum"></div>
+    <form action="/submit">
+        Message:<br>
+        <input type="text" id="sentence" name="sentence"></inputtextarea>
+        <div id="charNum"></div>
+        <input type="submit" value="Submit">
+    </form>
 </body>
-
 </html>

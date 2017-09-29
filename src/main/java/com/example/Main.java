@@ -58,21 +58,21 @@ public class Main {
     return "write";
   }
 
-  @RequestMapping("/db")
-  String db(Map<String, Object> model) {
+  @RequestMapping("/submit")
+  String submit(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS story (sentence TEXT)");
+      stmt.executeUpdate("INSERT INTO story VALUES (sentence)");
+      ResultSet rs = stmt.executeQuery("SELECT sentence FROM story");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
+        output.add("Read from DB: " + rs.getString("sentence"));
       }
 
       model.put("records", output);
-      return "db";
+      return "submit";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
