@@ -72,7 +72,7 @@ public class Main {
       }
 
       model.put("records", output);
-      return "submit";
+      return "index";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
